@@ -190,12 +190,7 @@ function startQuestion() {
 
 /* ─── Cantik button ESCAPE (pointerenter + pointerdown) ─── */
 function onCantikEscape(e) {
-    if (isJinak) {
-        if (e && (e.type === 'pointerdown' || e.type === 'touchstart')) {
-            showCantikResult();
-        }
-        return;
-    }
+    if (isJinak) return;
 
     if (!cantikFixed) {
         detachCantik();
@@ -277,17 +272,24 @@ function showJelekResult() {
 }
 
 function showCantikResult() {
-    // This is hard to trigger — user actually caught the button!
-    cantikName.textContent = playerName || 'Kamu';
-    cantikAttempts.textContent = `${missCount} percobaan`;
-    revealMsg.classList.add('hidden');
+    if (cantikName) {
+        cantikName.textContent = playerName || 'Kamu';
+    }
+    if (cantikAttempts) {
+        cantikAttempts.textContent = `${missCount} percobaan`;
+    }
+    if (revealMsg) {
+        revealMsg.classList.add('hidden');
+    }
 
     showScreen(screenCantik);
 
-    // Reveal attempt count after 2s
-    setTimeout(() => {
-        revealMsg.classList.remove('hidden');
-    }, 2000);
+    // Reveal attempt count after 2s if element exists
+    if (revealMsg) {
+        setTimeout(() => {
+            revealMsg.classList.remove('hidden');
+        }, 2000);
+    }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -315,20 +317,38 @@ nameInput.addEventListener('keydown', (e) => {
 });
 
 /* Cantik button — escape on ANY approach */
-btnCantik.addEventListener('pointerenter', onCantikEscape);
+btnCantik.addEventListener('pointerenter', (e) => {
+    if (isJinak) return;
+    onCantikEscape(e);
+});
 
 btnCantik.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // Barely impossible to reach, but if they DO click it — reward them!
-    onCantikEscape(e);
+    if (isJinak) {
+        showCantikResult();
+    } else {
+        onCantikEscape(e);
+    }
 }, { passive: false });
 
 btnCantik.addEventListener('touchstart', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    onCantikEscape(e);
+    if (isJinak) {
+        showCantikResult();
+    } else {
+        onCantikEscape(e);
+    }
 }, { passive: false });
+
+btnCantik.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isJinak) {
+        showCantikResult();
+    }
+});
 
 /* Jelek button */
 btnJelek.addEventListener('click', onJelekClick);
