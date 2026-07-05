@@ -198,13 +198,13 @@ function updateMissUI() {
         attemptCounter.textContent = '';
         return;
     }
-    attemptCounter.textContent = `${missCount}× Mochi kabur! 🙀`;
+    attemptCounter.textContent = `${missCount}× Kucing kabur! 🙀`;
 
     // Update gif based on miss count
     if (missCount >= 10) {
         questionGif.src = 'gif/mochi-laugh.gif';
         questionText.textContent = 'Kamu itu cantik atau jelek? 😹';
-        questionHint.textContent = 'Mochi udah ketawa tuh liat kamu susah payah 😂';
+        questionHint.textContent = 'Kucingnya udah ketawa tuh liat kamu susah payah 😂';
     } else if (missCount >= 5) {
         questionGif.src = 'gif/mochi-sad.gif';
         questionText.textContent = 'Ayo dong, pilih salah satu~';
@@ -231,10 +231,12 @@ function showJelekResult() {
     cantikFixed = false;
 
     const missText = missCount > 0
-        ? `Sebelum nyerah, kamu udah bikin Mochi kabur ${missCount}× 😂`
-        : 'Kamu bahkan nggak nyoba ngejar Mochi dulu! 😑';
+        ? `Sebelum nyerah, kamu udah bikin si Kucing kabur ${missCount}× 😂`
+        : 'Kamu bahkan nggak nyoba ngejar dulu! 😑';
 
-    jelekSummary.textContent = missText;
+    if (jelekSummary) {
+        jelekSummary.textContent = missText;
+    }
 
     // Fun title based on miss count
     if (missCount >= 10) {
