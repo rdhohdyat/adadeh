@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pertanyaan Penting 🐱</title>
+    <meta name="description" content="Jawab pertanyaan penting ini dengan jujur!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="prank.css">
+</head>
+<body>
+
+    <!-- Floating decorations -->
+    <div class="floats" aria-hidden="true">
+        <span style="--x:8%;  --y:10%; --d:6s">🌸</span>
+        <span style="--x:85%; --y:7%;  --d:8s">⭐</span>
+        <span style="--x:5%;  --y:72%; --d:7s">🎀</span>
+        <span style="--x:88%; --y:78%; --d:9s">🌷</span>
+        <span style="--x:50%; --y:90%; --d:5s">✨</span>
+        <span style="--x:70%; --y:3%;  --d:10s">🍡</span>
+    </div>
+
+    <!-- ══════════════════════════
+         SCREEN: INTRO
+    ══════════════════════════ -->
+    <div id="screenIntro" class="screen active">
+        <div class="card intro-card">
+            <img src="gif/mochi-hallo.gif" alt="Kucing menyapa" class="gif-main" id="introGif">
+            <h1 class="title">Halo! 👋</h1>
+            <p class="subtitle">Ada <strong>satu pertanyaan penting</strong> buat kamu~</p>
+            <p class="desc">Siap jawab jujur? 🐱</p>
+            <div class="input-wrap">
+                <input type="text" id="nameInput" placeholder="Nama kamu siapa?" maxlength="30" autocomplete="off">
+            </div>
+            <button class="btn btn-pink" id="btnStart">Siap! 🐾</button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════
+         SCREEN: PERTANYAAN
+    ══════════════════════════ -->
+    <div id="screenQuestion" class="screen hidden">
+        <div class="card question-card">
+
+            <!-- Cat gif area -->
+            <div class="gif-wrap">
+                <img src="gif/mochi-hallo.gif" alt="Kucing bertanya" class="gif-question" id="questionGif">
+            </div>
+
+            <p class="question-label">Pertanyaan penting nih~</p>
+            <h2 class="question-text" id="questionText">Kamu itu cantik atau jelek?</h2>
+            <p class="question-hint" id="questionHint">Pilih salah satu dengan jujur ya! 😼</p>
+
+            <!-- Attempt counter -->
+            <p class="attempt-counter" id="attemptCounter"></p>
+
+            <!-- THE BUTTONS -->
+            <div class="btn-choice-wrap" id="btnChoiceWrap">
+                <!-- "Cantik" — runs away -->
+                <button class="btn btn-cantik" id="btnCantik" aria-label="Cantik">
+                    ✨ Cantik
+                </button>
+                <!-- "Jelek" — fixed, always clickable -->
+                <button class="btn btn-jelek" id="btnJelek" aria-label="Jelek">
+                    💀 Jelek
+                </button>
+            </div>
+
+            <!-- Speed hint that appears after a few misses -->
+            <p class="escape-hint hidden" id="escapeHint">Psst… tombol itu kayaknya nggak mau dipilih 👀</p>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════
+         SCREEN: HASIL "JELEK" (prank result)
+    ══════════════════════════ -->
+    <div id="screenJelek" class="screen hidden">
+        <div class="card result-card">
+            <img src="gif/mochi-laugh.gif" alt="Kucing ketawa" class="gif-result" id="jelekGif">
+            <div class="result-badge badge-red">Kamu milih JELEK 💀</div>
+            <h2 class="result-title" id="jelekTitle">HAHAHAHA! 😹</h2>
+            <p class="result-msg" id="jelekMsg">
+                Masa iya kamu milih <strong>"Jelek"</strong>?! 😂<br>
+                Padahal tombol <strong>"Cantik"</strong>-nya bisa lho…<br> 😏
+            </p>
+            <button class="btn btn-pink" id="btnRetryFromJelek">Coba Lagi 😤</button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════
+         SCREEN: HASIL "CANTIK" (berhasil)
+    ══════════════════════════ -->
+    <div id="screenCantik" class="screen hidden">
+        <div class="card result-card">
+            <img src="gif/mochi-love.gif" alt="Kucing senang" class="gif-result" id="cantikGif">
+            <div class="result-badge badge-pink">Kamu pilih CANTIK ✨</div>
+            <h2 class="result-title" id="cantikTitle">YEAY! 🎉</h2>
+            <p class="result-msg" id="cantikMsg">
+                <strong id="cantikName"></strong>, kamu berhasil!<br><br>
+                <span class="reveal-msg hidden" id="revealMsg">
+                    <br>Tapi jujur ya… kamu perlu <strong id="cantikAttempts"></strong> percobaan buat klik itu 😂
+                </span>
+            </p>
+            <button class="btn btn-pink" id="btnPlayAgain">Main Lagi 😺</button>
+        </div>
+    </div>
+
+    <script src="prank.js"></script>
+</body>
+</html>
