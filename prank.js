@@ -40,6 +40,8 @@ const btnPlayAgain   = document.getElementById('btnPlayAgain');
 let playerName    = '';
 let missCount     = 0;   // times "Cantik" escaped
 let jelekClicked  = false;
+let catClicks     = 0;
+let isJinak       = false;
 
 /* Cantik button — roaming state */
 let cantikFixed   = false;   // true once we detach from flow
@@ -151,9 +153,11 @@ function wiggleCantik() {
    QUESTION SCREEN LOGIC
 ════════════════════════════════════════════════════════════ */
 function startQuestion() {
-    missCount   = 0;
+    missCount    = 0;
     jelekClicked = false;
     cantikFixed  = false;
+    catClicks    = 0;
+    isJinak      = false;
 
     // Reset Cantik btn style
     btnCantik.style.position   = '';
@@ -164,12 +168,19 @@ function startQuestion() {
     btnCantik.style.margin     = '';
     btnCantik.style.flex       = '';
     btnCantik.style.transition = '';
+    btnCantik.style.boxShadow  = '';
+    btnCantik.style.border     = '';
 
     attemptCounter.textContent = '';
     escapeHint.classList.add('hidden');
 
     // Reset gif to hallo
     questionGif.src = 'gif/mochi-hallo.gif';
+    questionGif.style.transition = 'transform 0.1s ease';
+
+    // Reset question texts
+    questionText.textContent = 'Kamu itu cantik atau jelek?';
+    questionHint.textContent = 'Pilih salah satu dengan jujur ya! 😼';
 
     showScreen(screenQuestion);
 
@@ -179,6 +190,13 @@ function startQuestion() {
 
 /* ─── Cantik button ESCAPE (pointerenter + pointerdown) ─── */
 function onCantikEscape(e) {
+    if (isJinak) {
+        if (e && (e.type === 'pointerdown' || e.type === 'touchstart')) {
+            showCantikResult();
+        }
+        return;
+    }
+
     if (!cantikFixed) {
         detachCantik();
         return;
@@ -331,6 +349,35 @@ btnPlayAgain.addEventListener('click', () => showScreen(screenIntro));
 btnPlayAgain.addEventListener('touchstart', (e) => {
     e.preventDefault();
     showScreen(screenIntro);
+}, { passive: false });
+
+/* Cheat: Click cat 5 times to tame it */
+function onCatClick() {
+    if (isJinak || !cantikFixed) return;
+    catClicks++;
+
+    // Small scale bounce effect on click
+    questionGif.style.transform = 'scale(0.88)';
+    setTimeout(() => {
+        questionGif.style.transform = 'scale(1)';
+    }, 100);
+
+    if (catClicks >= 5) {
+        isJinak = true;
+        questionGif.src = 'gif/mochi-love.gif';
+        questionText.textContent = 'Kucingnya sudah jinak! 🥰';
+        questionHint.textContent = 'Sekarang kamu bisa klik tombol Cantik!';
+        
+        // Visual gold/pink glow to show button can be clicked
+        btnCantik.style.boxShadow = '0 0 25px #FF6FAE, 0 8px 24px rgba(255,111,174,0.45)';
+        btnCantik.style.border = '2px solid #ffffff';
+    }
+}
+
+questionGif.addEventListener('click', onCatClick);
+questionGif.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    onCatClick();
 }, { passive: false });
 
 /* ─── Initial screen ─── */
